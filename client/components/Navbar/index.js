@@ -6,7 +6,7 @@ export default function Navbar() {
     <nav className="uk-navbar-container">
       <div className="uk-container uk-flex">
         <section className="uk-navbar-left">
-          <Link to="/" className="uk-navbar-item uk-logo">ShortURL</Link>
+          <Link to="/" className="uk-navbar-item uk-logo">shortis.tk</Link>
         </section>
         <section className="uk-navbar-right">
           <ul className="uk-navbar-nav">
