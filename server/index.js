@@ -22,4 +22,4 @@ server.use('/register', async (req, res) => res.sendFile(`${__dirname}/public/in
 server.use(urlsRouter)
 server.get('*', async (req, res) => res.sendFile(`${__dirname}/public/index.html`))
 
-server.listen(3000)
+server.listen(process.env.PORT)
