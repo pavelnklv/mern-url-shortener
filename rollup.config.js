@@ -28,6 +28,7 @@ export default [
       'jsonwebtoken',
       'node-fetch',
       'cheerio',
+      'express-useragent',
     ],
     plugins: [
       packageJson({

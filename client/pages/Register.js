@@ -4,7 +4,7 @@ export default function Register() {
   return (
     <div className="uk-width-1-1">
       <h2 className="uk-text-center uk-margin-top">Sign up</h2>
-      <form className="uk-width-1-2 uk-margin-auto">
+      <form className="uk-width-1-2@m uk-margin-auto">
         <div className="uk-margin">
           <label htmlFor="email" className="uk-hidden">Email</label>
           <input

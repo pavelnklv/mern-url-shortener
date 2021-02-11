@@ -1,5 +1,6 @@
 import { Router } from 'express'
 import { json } from 'body-parser'
+import { express as useragent } from 'express-useragent'
 import { generateShortUrl, getLongUrlTitle } from '../utils'
 import URL from '../models/URL'
 
@@ -21,17 +22,24 @@ router.post('/urls', json(), async (req, res) => {
   const newURL = new URL({ name, long, short, })
   await newURL.save()
 
-  const url = await URL.findOne({ short }).select({ name: 1, long: 1, short: 1 })
+  const url = await URL.findOne({ short })
+    .select({ name: 1, long: 1, short: 1, createdAt: 1 })
+    .sort('-createdAt')
 
   res.json(url)
 })
 
-router.get('/:short', async (req, res) => {
+router.get('/:short', useragent(), async (req, res) => {
   const { short } = req.params
+  const { browser, os } = req.useragent
   const url = await URL.findOne({ short })
-  if (!url) return res.status(404).end()
+   
 
-  console.log(JSON.stringify(req.headers))
+  url.clicks.push({
+    browser,
+    os
+  })
+  await url.save()
 
   res.redirect(url.long)
 })

@@ -11,7 +11,6 @@ const urlSchema = new Schema({
     browser: String,
     os: String,
     country: String,
-    source: String,
   }],
   user: {
     type: Schema.Types.ObjectId,
