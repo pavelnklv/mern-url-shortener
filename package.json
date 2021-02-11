@@ -12,7 +12,7 @@
     "postinstall": "npm run build && rm -rf server client"
   },
   "engines": {
-    "node": ">14.x"
+    "node": ">=14.x"
   },
   "devDependencies": {
     "@babel/core": "^7.12.10",
