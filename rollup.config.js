@@ -5,7 +5,6 @@ import replace from '@rollup/plugin-replace'
 import run from '@rollup/plugin-run'
 import postcss from 'rollup-plugin-postcss'
 import htmlTemplate from 'rollup-plugin-generate-html-template'
-import packageJson from 'rollup-plugin-generate-package-json'
 import progress from 'rollup-plugin-progress'
 import { terser } from 'rollup-plugin-terser'
 
@@ -31,14 +30,6 @@ export default [
       'express-useragent',
     ],
     plugins: [
-      packageJson({
-        baseContents: (pkg) => ({
-          name: pkg.name,
-          scripts: {
-            start: "node index.js"
-          }
-        })
-      }),
       dev && run(),
       progress()
     ]
