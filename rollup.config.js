@@ -26,6 +26,8 @@ export default [
       'express',
       'mongoose',
       'jsonwebtoken',
+      'node-fetch',
+      'cheerio',
     ],
     plugins: [
       packageJson({
