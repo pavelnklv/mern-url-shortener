@@ -17,10 +17,11 @@ mongoose.connect(process.env.MONGODB_URI, {
 const server = express()
 
 server.use(session({
+  name: 'sess',
   secret: process.env.SECRET,
   secure: process.env.NODE_ENV === 'production',
   maxAge: 604800000,
-  sameSite: true
+  sameSite: 'lax'
 }))
 server.use(express.static(`${__dirname}/public`))
 
