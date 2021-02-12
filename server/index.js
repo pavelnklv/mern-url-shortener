@@ -21,7 +21,7 @@ server.use(session({
   secret: process.env.SECRET,
   secure: process.env.NODE_ENV === 'production',
   maxAge: 604800000,
-  sameSite: 'lax'
+  secureProxy: true
 }))
 server.use(express.static(`${__dirname}/public`))
 
