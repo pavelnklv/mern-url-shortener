@@ -19,7 +19,7 @@ const server = express()
 server.use(session({
   name: 'sess',
   secret: process.env.SECRET,
-  secure: true, // process.env.NODE_ENV === 'production',
+  // secure: process.env.NODE_ENV === 'production',
   httpOnly: true,
   maxAge: 604800000,
   sameSite: 'none'
