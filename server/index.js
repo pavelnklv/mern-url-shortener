@@ -1,7 +1,9 @@
 import dotenv from 'dotenv'
 import express from 'express'
 import mongoose from 'mongoose'
+import session from 'express-session'
 
+import authRouter from './routers/auth'
 import urlsRouter from './routers/urls'
 
 dotenv.config()
@@ -14,11 +16,22 @@ mongoose.connect(process.env.MONGODB_URI, {
 
 const server = express()
 
+server.use(session({
+  secret: process.env.SECRET,
+  saveUninitialized: true,
+  resave: false,
+  cookie: {
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: true,
+    maxAge: 604800000
+  }
+}))
 server.use(express.static(`${__dirname}/public`))
 
-server.use('/login', async (req, res) => res.sendFile(`${__dirname}/public/index.html`))
-server.use('/register', async (req, res) => res.sendFile(`${__dirname}/public/index.html`))
+server.get('/login', async (req, res) => res.sendFile(`${__dirname}/public/index.html`))
+server.get('/register', async (req, res) => res.sendFile(`${__dirname}/public/index.html`))
 
+server.use(authRouter)
 server.use(urlsRouter)
 server.get('*', async (req, res) => res.sendFile(`${__dirname}/public/index.html`))
 
