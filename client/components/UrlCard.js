@@ -1,13 +1,21 @@
 import React, { useContext, useRef } from 'react'
 import { AuthContext } from '../context/authContext'
 
-export default function UrlCard({ url }) {
+export default function UrlCard({ url, deleteUrl }) {
   const { me } = useContext(AuthContext)
   const shortUrlRef = useRef(null)
 
   const onCopyClick = async () => {
     const shortUrl = shortUrlRef.current.innerText
     await window.navigator.clipboard.writeText(shortUrl)
+  }
+
+  const onDeleteClick = async (_id) => {
+    await fetch(`/${_id}`, {
+      method: 'DELETE',
+      credentials: 'include'
+    })
+    deleteUrl(_id)
   }
 
   return (
@@ -44,6 +52,8 @@ export default function UrlCard({ url }) {
               <i
                 className="material-icons"
                 title="Delete"
+
+                onClick={() => onDeleteClick(url._id)}
               >
                 delete_forever
               </i>

@@ -2,11 +2,12 @@ import { Router } from 'express'
 import { json } from 'body-parser'
 import { express as useragent } from 'express-useragent'
 import { generateShortUrl, getLongUrlTitle } from '../utils'
+import authenticate from '../middlewares/authenticate'
 import URL from '../models/URL'
 
 const router = Router()
 
-router.post('/urls', json(), async (req, res) => {
+router.post('/urls', json(), authenticate, async (req, res) => {
   const { long } = req.body
   if (!long) return res.status(400).end()
 
@@ -20,6 +21,9 @@ router.post('/urls', json(), async (req, res) => {
   }
 
   const newURL = new URL({ name, long, short, })
+  if (req.isAuthenticated) {
+    newURL.user = req.user._id
+  }
   await newURL.save()
 
   const url = await URL.findOne({ short })
@@ -27,6 +31,13 @@ router.post('/urls', json(), async (req, res) => {
     .sort('-createdAt')
 
   res.json(url)
+})
+
+router.get('/urls', authenticate, async (req, res) => {
+  if (!req.isAuthenticated) return res.status(401).end()
+  const urls = await URL.find({ user: req.user._id }).sort('-createdAt')
+
+  res.json(urls)
 })
 
 router.get('/:short', useragent(), async (req, res) => {
@@ -42,6 +53,14 @@ router.get('/:short', useragent(), async (req, res) => {
   await url.save()
 
   res.redirect(url.long)
+})
+
+router.delete('/:id', authenticate, async (req, res) => {
+  if (!req.isAuthenticated) return res.status(401).end()
+  const { id } = req.params
+
+  await URL.findByIdAndDelete(id)
+  res.end()
 })
 
 export default router
