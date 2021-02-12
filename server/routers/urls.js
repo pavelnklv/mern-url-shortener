@@ -33,7 +33,7 @@ router.get('/:short', useragent(), async (req, res) => {
   const { short } = req.params
   const { browser, os } = req.useragent
   const url = await URL.findOne({ short })
-   
+  if (!url) return res.status(404).end()
 
   url.clicks.push({
     browser,
