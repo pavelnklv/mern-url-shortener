@@ -1,7 +1,7 @@
 import dotenv from 'dotenv'
 import express from 'express'
 import mongoose from 'mongoose'
-import session from 'express-session'
+import session from 'cookie-session'
 
 import authRouter from './routers/auth'
 import urlsRouter from './routers/urls'
@@ -18,13 +18,9 @@ const server = express()
 
 server.use(session({
   secret: process.env.SECRET,
-  saveUninitialized: true,
-  resave: false,
-  cookie: {
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: true,
-    maxAge: 604800000
-  }
+  secure: process.env.NODE_ENV === 'production',
+  maxAge: 604800000,
+  sameSite: true
 }))
 server.use(express.static(`${__dirname}/public`))
 

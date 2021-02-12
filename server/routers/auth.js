@@ -38,7 +38,7 @@ router.post('/login', json(), async (req, res) => {
 })
 
 router.post('/logout', async (req, res) => {
-  req.session.destroy()
+  req.session = null
   res.json({ message: 'ok' })
 })
 
