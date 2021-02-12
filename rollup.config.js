@@ -28,7 +28,7 @@ export default [
       'node-fetch',
       'cheerio',
       'express-useragent',
-      'express-session',
+      'cookie-session',
     ],
     plugins: [
       dev && run(),
