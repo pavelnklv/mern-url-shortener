@@ -26,6 +26,22 @@ router.post('/register', json(), validateRegisterBody, async (req, res) => {
   res.status(201).json(user)
 })
 
+router.post('/login', json(), async (req, res) => {
+  const { email, password } = req.body
+
+  const user = await User.findOne({ email })
+  if (!user) return res.status(401).end()
+
+  req.session.user = user
+
+  res.json(user)
+})
+
+router.post('/logout', async (req, res) => {
+  req.session.destroy()
+  res.json({ message: 'ok' })
+})
+
 router.get('/me', authenticate, async (req, res) => {
   if (!req.isAuthenticated) return res.status(401).end()
 

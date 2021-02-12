@@ -1,11 +1,15 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import { AuthContext } from '../context/authContext'
 import Home from '../pages/Home'
 import Login from '../pages/Login'
 import Register from '../pages/Register'
 import Navbar from './Navbar'
 
 export default function App() {
+  const { loading } = useContext(AuthContext)
+
+  if (loading) return <p className="uk-text-center">loading...</p>
   return (
     <BrowserRouter>
       <Navbar />

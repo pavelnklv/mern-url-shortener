@@ -1,10 +1,33 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 export default function Register() {
+  const [userValues, setNewUserValues] = useState({
+    email: '', password: '', comparePassword: ''
+  })
+
+  const onChange = e =>
+    setNewUserValues({ ...userValues, [e.target.name]: e.target.value })
+
+  const onSubmit = async e => {
+    e.preventDefault()
+    
+    const res = await fetch('/register', {
+      method: 'POST',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(userValues)
+    })
+    const json = await res.json()
+    console.log(json)
+  }
+
   return (
     <div className="uk-width-1-1">
       <h2 className="uk-text-center uk-margin-top">Sign up</h2>
-      <form className="uk-width-1-2@m uk-margin-auto">
+      <form
+        className="uk-width-1-2@m uk-margin-auto"
+        onSubmit={onSubmit}
+      >
         <div className="uk-margin">
           <label htmlFor="email" className="uk-hidden">Email</label>
           <input
@@ -12,6 +35,8 @@ export default function Register() {
             name="email"
             placeholder="Your email"
             className="uk-input"
+            value={userValues.email}
+            onChange={onChange}
           />
         </div>
 
@@ -22,6 +47,8 @@ export default function Register() {
             name="password"
             placeholder="Your password"
             className="uk-input"
+            value={userValues.password}
+            onChange={onChange}
           />
         </div>
 
@@ -32,6 +59,8 @@ export default function Register() {
             name="comparePassword"
             placeholder="Compare your password"
             className="uk-input"
+            value={userValues.comparePassword}
+            onChange={onChange}
           />
         </div>
 
