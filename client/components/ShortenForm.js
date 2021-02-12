@@ -3,9 +3,18 @@ import React, { useState } from 'react'
 export default function ShortenForm({ onAddUrl }) {
   const [long, setLong] = useState('')
 
+  const isValidUrl = url => {
+    try {
+      new URL(url)
+    } catch (e) {
+      return false
+    }
+    return true
+  }
+
   const onSubmit = e => {
     e.preventDefault()
-    if (!long) return
+    if (!isValidUrl(long)) return
     onAddUrl(long)
     setLong('')
   }
